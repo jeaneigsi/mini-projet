@@ -120,6 +120,17 @@ services:
       - maintenance-net
     restart: unless-stopped
 
+  kibana-setup:
+    build: ./kibana
+    container_name: kibana-setup
+    depends_on:
+      - kibana
+    environment:
+      KIBANA_URL: http://kibana:5601
+    networks:
+      - maintenance-net
+    restart: "no"
+
   # ===================
   # DATABASE LAYER
   # ===================
