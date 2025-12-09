@@ -1,0 +1,14 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "Maintenance 4.0 Database",
+            "Group": "Servers",
+            "Host": "postgres",
+            "Port": 5432,
+            "MaintenanceDB": "maintenance_db",
+            "Username": "maintenance",
+            "SSLMode": "prefer",
+            "PassFile": "/pgadmin4/pgpass"
+        }
+    }
+}

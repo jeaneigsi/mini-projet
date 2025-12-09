@@ -34,9 +34,13 @@ docker-compose up -d
 3. Wait for services to be ready (about 2-3 minutes for first startup)
 
 4. Access the dashboards:
+   - **Dashboard**: http://localhost (Main Web UI)
+   - **Grafana**: http://localhost:3000 (admin / admin123)
+   - **pgAdmin**: http://localhost:5050 (admin@maintenance.local / admin123)
    - Kibana: http://localhost:5601
    - Backend API: http://localhost:8000
    - API Documentation: http://localhost:8000/docs
+
 
 ### Verify Installation
 
@@ -59,15 +63,19 @@ docker exec -it kafka kafka-console-consumer \
 docker exec -it kafka kafka-console-consumer  --bootstrap-server localhost:9092 --topic telemetry --max-messages 5
 ## Services
 
-| Service | Port | Description |
-|---------|------|-------------|
-| Mosquitto | 1883 | MQTT Broker |
-| Kafka | 9092 | Event Bus |
-| Elasticsearch | 9200 | Analytics Storage |
-| Kibana | 5601 | Dashboards |
-| PostgreSQL | 5432 | Business Database |
-| Backend | 8000 | FastAPI Application |
-| Simulator | - | Sensor Data Generator |
+| Service | Port | Description | Credentials |
+|---------|------|-------------|-------------|
+| **Dashboard** | 80 | Frontend Web Application | - |
+| **Grafana** | 3000 | Monitoring Dashboards | admin / admin123 |
+| **pgAdmin** | 5050 | Database Administration | admin@maintenance.local / admin123 |
+| Kibana | 5601 | Elasticsearch Dashboards | - |
+| Backend | 8000 | FastAPI Application | - |
+| Mosquitto | 1883 | MQTT Broker | - |
+| Kafka | 9092 | Event Bus | - |
+| Elasticsearch | 9200 | Analytics Storage | - |
+| PostgreSQL | 5432 | Business Database | maintenance / maintenance123 |
+| Simulator | - | Sensor Data Generator | - |
+
 
 ## API Endpoints
 
@@ -108,8 +116,12 @@ industrie-4.0/
 ├── logstash/          # Logstash pipeline
 ├── elasticsearch/     # ES index templates
 ├── kibana/            # Kibana dashboards
-└── database/          # PostgreSQL init scripts
+├── database/          # PostgreSQL init scripts
+├── dashboard/         # Frontend Web Application
+├── grafana/           # Grafana provisioning & dashboards
+└── pgadmin/           # pgAdmin server configuration
 ```
+
 
 ## License
 

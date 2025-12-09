@@ -1,0 +1,13 @@
+apiVersion: 1
+
+providers:
+  - name: 'Maintenance 4.0'
+    orgId: 1
+    folder: 'Maintenance 4.0'
+    folderUid: maintenance-40
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards

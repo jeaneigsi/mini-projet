@@ -182,6 +182,71 @@ services:
       - maintenance-net
     restart: unless-stopped
 
+  # ===================
+  # DATABASE ADMIN
+  # ===================
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@maintenance.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - maintenance-net
+    restart: unless-stopped
+
+  # ===================
+  # MONITORING & DASHBOARDS
+  # ===================
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    container_name: grafana
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin123}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    networks:
+      - maintenance-net
+    restart: unless-stopped
+
+  # ===================
+  # FRONTEND DASHBOARD
+  # ===================
+
+  dashboard:
+    build: ./dashboard
+    container_name: dashboard
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - maintenance-net
+    restart: unless-stopped
+
 networks:
   maintenance-net:
     driver: bridge
@@ -193,3 +258,5 @@ volumes:
   kafka_data:
   elasticsearch_data:
   postgres_data:
+  pgadmin_data:
+  grafana_data:
