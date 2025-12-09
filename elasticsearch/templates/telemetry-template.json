@@ -1,0 +1,74 @@
+{
+    "index_patterns": [
+        "telemetry-*"
+    ],
+    "template": {
+        "settings": {
+            "number_of_shards": 1,
+            "number_of_replicas": 0,
+            "index.lifecycle.name": "telemetry-policy",
+            "index.lifecycle.rollover_alias": "telemetry"
+        },
+        "mappings": {
+            "properties": {
+                "@timestamp": {
+                    "type": "date"
+                },
+                "site_code": {
+                    "type": "keyword"
+                },
+                "asset_type": {
+                    "type": "keyword"
+                },
+                "asset_code": {
+                    "type": "keyword"
+                },
+                "source_topic": {
+                    "type": "keyword"
+                },
+                "processed_at": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss"
+                },
+                "pipeline": {
+                    "type": "keyword"
+                },
+                "metrics": {
+                    "type": "object",
+                    "enabled": true
+                },
+                "metric_temp_out_air": {
+                    "type": "float"
+                },
+                "metric_temp_supply_air": {
+                    "type": "float"
+                },
+                "metric_power_kw": {
+                    "type": "float"
+                },
+                "metric_vibration_level": {
+                    "type": "float"
+                },
+                "metric_water_temp_in": {
+                    "type": "float"
+                },
+                "metric_water_temp_out": {
+                    "type": "float"
+                },
+                "metric_run_hours": {
+                    "type": "float"
+                },
+                "metric_motor_temp": {
+                    "type": "float"
+                },
+                "metric_door_cycles": {
+                    "type": "long"
+                },
+                "metric_speed": {
+                    "type": "float"
+                }
+            }
+        }
+    },
+    "priority": 100
+}
